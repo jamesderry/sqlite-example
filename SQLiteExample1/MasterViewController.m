@@ -26,10 +26,21 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    /*
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
 
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
+    */
+    
+    // Get the DBAccess object
+    DBAccess *dbAccess = [[DBAccess alloc] init];
+    
+    // get employees array from database
+    self.employees = [dbAccess getAllEmployees];
+    
+    // close database because we are finished with it
+    [dbAccess closeDatabase];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,15 +68,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _objects.count;
+    return [self.employees count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-    NSDate *object = _objects[indexPath.row];
-    cell.textLabel.text = [object description];
+    //NSDate *object = _objects[indexPath.row];
+    
+    Employee *employee = [self.employees objectAtIndex:indexPath.row];
+    cell.textLabel.text = employee.lastName;
     return cell;
 }
 
@@ -105,7 +118,7 @@
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSDate *object = _objects[indexPath.row];
+        Employee *object = self.employees[indexPath.row];
         [[segue destinationViewController] setDetailItem:object];
     }
 }

@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Employee.h"
+#import "DBAccess.h"
 
 @interface MasterViewController : UITableViewController
+
+@property(nonatomic, strong) NSMutableArray *employees;
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Employee.h"
 
 @interface DetailViewController ()
 - (void)configureView;
@@ -31,7 +32,8 @@
     // Update the user interface for the detail item.
 
     if (self.detailItem) {
-        self.detailDescriptionLabel.text = [self.detailItem description];
+        Employee *employee = (Employee *)self.detailItem;
+        self.detailDescriptionLabel.text = [NSString stringWithFormat:@"%@ %@\n%i\n%@", employee.firstName, employee.lastName, employee.age, employee.deptName];
     }
 }
 
